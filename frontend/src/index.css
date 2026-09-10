@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-dark: #040812;
+  --bg-card: rgba(10, 18, 34, 0.82);
+  --bg-card-hover: rgba(16, 28, 54, 0.95);
+  
+  --neon-cyan: #00f2ff;
+  --neon-magenta: #ff007f;
+  --neon-purple: #9d4edd;
+  --neon-green: #00ff88;
+  --neon-gold: #ffb703;
+  --neon-sky: #38bdf8;
+  --neon-orange: #ff5500;
+  --neon-rose: #ff0055;
+
+  --border-cyan: rgba(0, 242, 255, 0.35);
+  --border-purple: rgba(157, 78, 221, 0.35);
+  --border-green: rgba(0, 255, 136, 0.35);
+  --border-gold: rgba(255, 183, 3, 0.35);
+
+  --text-main: #ffffff;
+  --text-muted: #a0aec0;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 10% 15%, rgba(0, 242, 255, 0.18) 0px, transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(255, 0, 127, 0.15) 0px, transparent 38%),
+    radial-gradient(circle at 85% 85%, rgba(0, 255, 136, 0.16) 0px, transparent 42%),
+    radial-gradient(circle at 15% 85%, rgba(157, 78, 221, 0.18) 0px, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(4, 8, 18, 0.95) 0px, transparent 100%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Vivid Gradient Text Styles */
+.text-gradient-rainbow {
+  background: linear-gradient(135deg, #00f2ff 0%, #9d4edd 35%, #ff007f 70%, #ffb703 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #00f2ff 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #00ff88 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #ffb703 0%, #ff7043 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-rose {
+  background: linear-gradient(135deg, #ff007f 0%, #ff0055 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Colorful Glassmorphic Panel */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid var(--border-cyan);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 242, 255, 0.08);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 242, 255, 0.7);
+  box-shadow: 0 16px 50px -8px rgba(0, 242, 255, 0.25);
+}
+
+.glass-panel-magenta {
+  border-color: rgba(255, 0, 127, 0.4);
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 0, 127, 0.1);
+}
+.glass-panel-magenta:hover {
+  border-color: rgba(255, 0, 127, 0.8);
+  box-shadow: 0 16px 50px -8px rgba(255, 0, 127, 0.3);
+}
+
+.glass-panel-gold {
+  border-color: rgba(255, 183, 3, 0.4);
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 183, 3, 0.1);
+}
+.glass-panel-gold:hover {
+  border-color: rgba(255, 183, 3, 0.8);
+  box-shadow: 0 16px 50px -8px rgba(255, 183, 3, 0.3);
+}
+
+.glass-panel-green {
+  border-color: rgba(0, 255, 136, 0.4);
+  box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 255, 136, 0.1);
+}
+.glass-panel-green:hover {
+  border-color: rgba(0, 255, 136, 0.8);
+  box-shadow: 0 16px 50px -8px rgba(0, 255, 136, 0.3);
+}
+
+/* Glowing Neon Text */
+.glow-cyan {
+  text-shadow: 0 0 18px rgba(0, 242, 255, 0.85);
+}
+.glow-magenta {
+  text-shadow: 0 0 18px rgba(255, 0, 127, 0.85);
+}
+.glow-green {
+  text-shadow: 0 0 18px rgba(0, 255, 136, 0.85);
+}
+.glow-gold {
+  text-shadow: 0 0 18px rgba(255, 183, 3, 0.85);
+}
+.glow-red {
+  text-shadow: 0 0 20px rgba(255, 0, 85, 0.95);
+}
+
+.heading-font {
+  font-family: var(--font-heading);
+}
+
+.mono-font {
+  font-family: var(--font-mono);
+}
+
+/* Colorful Pulsing Badges */
+.pulse-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.25);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px currentColor;
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 18s linear infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(4, 8, 18, 0.95);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00f2ff 0%, #9d4edd 50%, #ff007f 100%);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00ff88 0%, #00f2ff 50%, #ffb703 100%);
+}
+
+/* Range Input Slider Styling */
+input[type="range"] {
+  accent-color: #00f2ff;
+  height: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}

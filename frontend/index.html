@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLAR-EMS | AI Energy Decision-Support Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="aurora-background"></div>
+    
+    <div class="app-container">
+        <!-- Top Navbar -->
+        <header class="navbar">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>POLAR-EMS <span class="badge-edge"><i data-lucide="shield-check"></i> EDGE ACTIVE</span></h1>
+                    <p class="subtitle">Antarctic Research Station Bharati (70°45'S 11°44'E) • Autonomous Microgrid Core</p>
+                </div>
+            </div>
+            
+            <div class="nav-telemetry">
+                <div class="telemetry-pill">
+                    <i data-lucide="thermometer-snowflake" class="icon-cyan"></i>
+                    <div class="pill-data">
+                        <span class="label">AMBIENT TEMP</span>
+                        <span class="value" id="val-temp">-24.2°C</span>
+                    </div>
+                </div>
+                <div class="telemetry-pill">
+                    <i data-lucide="wind" class="icon-sky"></i>
+                    <div class="pill-data">
+                        <span class="label">WIND SPEED</span>
+                        <span class="value" id="val-wind">38.4 kt</span>
+                    </div>
+                </div>
+                <div class="telemetry-pill">
+                    <i data-lucide="sun" class="icon-amber"></i>
+                    <div class="pill-data">
+                        <span class="label">IRRADIANCE</span>
+                        <span class="value" id="val-irradiance">320 W/m²</span>
+                    </div>
+                </div>
+                <div class="telemetry-pill">
+                    <i data-lucide="wifi-off" class="icon-emerald"></i>
+                    <div class="pill-data">
+                        <span class="label">SYNC STATUS</span>
+                        <span class="value status-offline">OFFLINE (LOCAL)</span>
+                    </div>
+                </div>
+                
+                <button id="btn-weather-sim" class="btn-sim">
+                    <i data-lucide="cloud-lightning"></i>
+                    <span>Blizzard Sim (-35°C)</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content -->
+        <main class="dashboard-grid">
+            
+            <!-- Row 1: Key Metric Cards -->
+            <section class="kpi-row">
+                <!-- Demand Card -->
+                <div class="kpi-card card-demand">
+                    <div class="kpi-header">
+                        <div class="kpi-title">
+                            <i data-lucide="activity"></i>
+                            <span>ELECTRICITY DEMAND</span>
+                        </div>
+                        <span class="kpi-badge badge-purple" id="badge-load-status">NOMINAL</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value-container">
+                            <span class="kpi-value" id="kpi-demand">285.4</span>
+                            <span class="kpi-unit">kW</span>
+                        </div>
+                        <div class="kpi-subtext">
+                            <span>Tier 1 Critical: <strong id="kpi-t1-load">190.0 kW</strong></span>
+                            <span>Tier 2 Flex: <strong id="kpi-t2-load">95.4 kW</strong></span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="progress-fill fill-demand" id="prog-demand" style="width: 71%;"></div>
+                    </div>
+                </div>
+
+                <!-- Solar Generation Card -->
+                <div class="kpi-card card-solar">
+                    <div class="kpi-header">
+                        <div class="kpi-title">
+                            <i data-lucide="sun"></i>
+                            <span>SOLAR GENERATION</span>
+                        </div>
+                        <span class="kpi-badge badge-amber">RENEWABLE</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value-container">
+                            <span class="kpi-value" id="kpi-solar">42.1</span>
+                            <span class="kpi-unit">kW</span>
+                        </div>
+                        <div class="kpi-subtext">
+                            <span>Peak Potential: <strong>65.0 kW</strong></span>
+                            <span>Efficiency: <strong>94%</strong></span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="progress-fill fill-solar" id="prog-solar" style="width: 64.7%;"></div>
+                    </div>
+                </div>
+
+                <!-- Wind Generation Card -->
+                <div class="kpi-card card-wind">
+                    <div class="kpi-header">
+                        <div class="kpi-title">
+                            <i data-lucide="wind"></i>
+                            <span>WIND GENERATION</span>
+                        </div>
+                        <span class="kpi-badge badge-sky">RENEWABLE</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value-container">
+                            <span class="kpi-value" id="kpi-wind">115.0</span>
+                            <span class="kpi-unit">kW</span>
+                        </div>
+                        <div class="kpi-subtext">
+                            <span>Turbines Active: <strong>3/3</strong></span>
+                            <span>Gust factor: <strong>1.2x</strong></span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="progress-fill fill-wind" id="prog-wind" style="width: 76.6%;"></div>
+                    </div>
+                </div>
+
+                <!-- Battery Storage Card -->
+                <div class="kpi-card card-battery">
+                    <div class="kpi-header">
+                        <div class="kpi-title">
+                            <i data-lucide="battery-charging"></i>
+                            <span>BATTERY STORAGE (BMS)</span>
+                        </div>
+                        <span class="kpi-badge badge-emerald" id="kpi-batt-health">HEALTHY</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value-container">
+                            <span class="kpi-value" id="kpi-batt-soc">68.5</span>
+                            <span class="kpi-unit">%</span>
+                        </div>
+                        <div class="kpi-subtext">
+                            <span>Available: <strong id="kpi-batt-kwh">342.5 kWh</strong></span>
+                            <span>Rate: <strong id="kpi-batt-rate" class="txt-emerald">-45.0 kW</strong></span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="progress-fill fill-battery" id="prog-batt" style="width: 68.5%;"></div>
+                    </div>
+                </div>
+
+                <!-- Diesel Backup Card -->
+                <div class="kpi-card card-diesel">
+                    <div class="kpi-header">
+                        <div class="kpi-title">
+                            <i data-lucide="fuel"></i>
+                            <span>DIESEL BACKUP GENSET</span>
+                        </div>
+                        <span class="kpi-badge badge-red" id="kpi-diesel-status">STANDBY / MIN</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value-container">
+                            <span class="kpi-value" id="kpi-diesel">128.3</span>
+                            <span class="kpi-unit">kW</span>
+                        </div>
+                        <div class="kpi-subtext">
+                            <span>Fuel Burn Rate: <strong id="kpi-diesel-burn">32.1 L/h</strong></span>
+                            <span>Fuel Saved 24h: <strong>142.5 L</strong></span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress-bar">
+                        <div class="progress-fill fill-diesel" id="prog-diesel" style="width: 32.0%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Row 2: 24-Hour AI Forecast & Optimization Stack -->
+            <section class="main-chart-section glass-panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i data-lucide="trending-up" class="icon-cyan"></i>
+                        <h2>24-Hour AI Forecast & Energy Optimization Dispatch Overlay</h2>
+                    </div>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="dot dot-demand"></span> Demand</span>
+                        <span class="legend-item"><span class="dot dot-solar"></span> Solar</span>
+                        <span class="legend-item"><span class="dot dot-wind"></span> Wind</span>
+                        <span class="legend-item"><span class="dot dot-batt"></span> Battery</span>
+                        <span class="legend-item"><span class="dot dot-diesel"></span> Diesel</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Row 3: Lower Module Grid -->
+            <section class="bottom-grid">
+                
+                <!-- Battery Management & Physics Gauge -->
+                <div class="glass-panel battery-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i data-lucide="cpu" class="icon-emerald"></i>
+                            <h3>Deterministic Battery Physics Simulator</h3>
+                        </div>
+                    </div>
+                    <div class="battery-sim-content">
+                        <div class="battery-visual-container">
+                            <div class="battery-vessel">
+                                <div class="battery-terminal"></div>
+                                <div class="battery-liquid" id="batt-liquid" style="height: 68.5%;">
+                                    <div class="battery-bubbles"></div>
+                                </div>
+                                <div class="battery-threshold-line" title="Minimum Safety Reserve: 20%">
+                                    <span class="threshold-label">20% Safety Reserve</span>
+                                </div>
+                                <div class="battery-overlay-text">
+                                    <span class="big-soc" id="vessel-soc">68.5%</span>
+                                    <span class="sub-kwh" id="vessel-kwh">342.5 / 500 kWh</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="battery-metrics-list">
+                            <div class="metric-row">
+                                <span class="m-label">Total Capacity:</span>
+                                <span class="m-val">500.0 kWh</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="m-label">Max Power Rate:</span>
+                                <span class="m-val">±150.0 kW</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="m-label">Charge Efficiency ($\eta_c$):</span>
+                                <span class="m-val">95.0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="m-label">Discharge Efficiency ($\eta_d$):</span>
+                                <span class="m-val">95.0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="m-label">Min Safety Reserve:</span>
+                                <span class="m-val txt-amber">20.0% (100 kWh)</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="m-label">Current Strategy:</span>
+                                <span class="m-val txt-cyan" id="batt-strategy">DISCHARGING (-45 kW)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Predictive Alert & Causal Engine -->
+                <div class="glass-panel alert-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i data-lucide="shield-alert" class="icon-red"></i>
+                            <h3>Predictive Alert & Root Cause Analysis</h3>
+                        </div>
+                        <span class="alert-status-chip chip-warning" id="alert-chip">SHORTAGE ANTICIPATED</span>
+                    </div>
+
+                    <div class="alert-card" id="alert-card-container">
+                        <div class="alert-header-row">
+                            <span class="alert-title" id="alert-title-text">🔴 70 kW Deficit Predicted at 18:00 (Horizon H+11)</span>
+                            <span class="alert-time">Calculated 2m ago</span>
+                        </div>
+                        
+                        <div class="causal-chain">
+                            <span class="causal-label">Causal Root Chain:</span>
+                            <ul class="causal-list" id="causal-list-items">
+                                <li><i data-lucide="arrow-right-circle"></i> Temp drops to -32°C $\rightarrow$ Heating demand spikes (+45 kW)</li>
+                                <li><i data-lucide="arrow-right-circle"></i> Solar elevation decays $\rightarrow$ Generation drops to 50 kW</li>
+                                <li><i data-lucide="arrow-right-circle"></i> Wind generation holds at 100 kW</li>
+                                <li><i data-lucide="arrow-right-circle"></i> Battery reserve reaches 20% limit (Max safe discharge: 80 kW)</li>
+                            </ul>
+                        </div>
+
+                        <div class="action-plan">
+                            <span class="action-label">Automated Recommendation Engine:</span>
+                            <div class="action-box" id="action-box-text">
+                                <strong>ACTION PLAN:</strong> Dispatch Diesel Backup Gen #1 at <strong>70 kW</strong> from 17:45 to 20:00. Retain 100% Tier 1 Life Support. Shed Tier 2 EV Snowmobile Charging to save 12.4 L fuel.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Critical Load Protection Matrix -->
+                <div class="glass-panel load-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i data-lucide="server" class="icon-purple"></i>
+                            <h3>Critical Load Protection Matrix</h3>
+                        </div>
+                        <button class="btn-sm btn-outline" id="btn-reset-loads"><i data-lucide="rotate-ccw"></i> Auto Shed</button>
+                    </div>
+
+                    <div class="load-table-wrapper">
+                        <table class="load-table">
+                            <thead>
+                                <tr>
+                                    <th>LOAD NAME</th>
+                                    <th>TIER</th>
+                                    <th>POWER</th>
+                                    <th>PRIORITY</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tier1-row">
+                                    <td><i data-lucide="heart-pulse"></i> Life Support Heating</td>
+                                    <td><span class="badge-tier t1">Tier 1</span></td>
+                                    <td>120.0 kW</td>
+                                    <td>CRITICAL</td>
+                                    <td><span class="status-pill active">ALWAYS ON</span></td>
+                                </tr>
+                                <tr class="tier1-row">
+                                    <td><i data-lucide="radio"></i> SatComm & Nav Core</td>
+                                    <td><span class="badge-tier t1">Tier 1</span></td>
+                                    <td>40.0 kW</td>
+                                    <td>CRITICAL</td>
+                                    <td><span class="status-pill active">ALWAYS ON</span></td>
+                                </tr>
+                                <tr class="tier1-row">
+                                    <td><i data-lucide="database"></i> Sci Data Center</td>
+                                    <td><span class="badge-tier t1">Tier 1</span></td>
+                                    <td>30.0 kW</td>
+                                    <td>HIGH</td>
+                                    <td><span class="status-pill active">ALWAYS ON</span></td>
+                                </tr>
+                                <tr class="tier2-row">
+                                    <td><i data-lucide="zap"></i> EV Snowmobile Fleet</td>
+                                    <td><span class="badge-tier t2">Tier 2</span></td>
+                                    <td>40.0 kW</td>
+                                    <td>FLEXIBLE</td>
+                                    <td>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="toggle-load-ev" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr class="tier2-row">
+                                    <td><i data-lucide="flame"></i> Snow Melter Unit</td>
+                                    <td><span class="badge-tier t2">Tier 2</span></td>
+                                    <td>35.0 kW</td>
+                                    <td>FLEXIBLE</td>
+                                    <td>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="toggle-load-melter" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr class="tier2-row">
+                                    <td><i data-lucide="wrench"></i> Workshop Power</td>
+                                    <td><span class="badge-tier t2">Tier 2</span></td>
+                                    <td>20.4 kW</td>
+                                    <td>FLEXIBLE</td>
+                                    <td>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="toggle-load-workshop" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>POLAR-EMS • Smart India Hackathon Architecture • Built for Polar Extreme Environments (Bharati / Maitri Station)</p>
+            <p class="footer-meta">Edge Execution Engine: Pyomo MILP Solver + XGBoost Time-Series Ensemble • Latency: 14ms</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
