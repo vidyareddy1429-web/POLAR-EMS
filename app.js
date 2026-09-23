@@ -2,7 +2,10 @@
    POLAR-EMS Interactive Frontend Logic & Backend API Integration
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (typeof window === 'undefined' || typeof document === 'undefined') {
+    console.warn('POLAR-EMS UI script is browser-only. Open index.html in a browser or serve the project via a local web server.');
+} else {
+    document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lucide Icons
     lucide.createIcons();
 
@@ -341,4 +344,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initChart();
     updateUI();
-});
+    });
+}
